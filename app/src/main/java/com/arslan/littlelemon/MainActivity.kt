@@ -6,13 +6,16 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.arslan.littlelemon.navigation.NavigationComposable
 import com.arslan.littlelemon.ui.theme.LittleLemonTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val sharedPreferences by lazy {
+        getSharedPreferences("LittleLemon", MODE_PRIVATE)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -22,9 +25,17 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Onboarding()
+                    NavigationComposable(sharedPreferences)
                 }
             }
         }
+    }
+
+    companion object {
+        const val IS_LOGGED_IN_KEY = "isLoggedIn"
+        const val FIRST_NAME_KEY = "firstName"
+        const val LAST_NAME_KEY = "lastName"
+        const val LOCATION_KEY = "location"
+        const val EMAIL_ADDRESS_KEY = "emailAddress"
     }
 }

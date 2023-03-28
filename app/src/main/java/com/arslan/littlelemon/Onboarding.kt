@@ -1,5 +1,6 @@
 package com.arslan.littlelemon
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,18 +12,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.arslan.littlelemon.components.BrandButton
 import com.arslan.littlelemon.components.Input
+import com.arslan.littlelemon.navigation.Home
 import com.arslan.littlelemon.ui.theme.BrandColors
 import com.arslan.littlelemon.ui.theme.BrandTypography
 
 @Composable
-fun Onboarding() {
+fun OnboardingScreen(
+    navController: NavHostController,
+    sharedPreferences: SharedPreferences
+) {
 
     val firstName = remember { mutableStateOf(TextFieldValue("")) }
     val firstNameError = remember { mutableStateOf("") }
@@ -78,7 +84,7 @@ fun Onboarding() {
         Column(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .weight(0.8f, true),
+                .weight(0.8f),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
@@ -128,36 +134,52 @@ fun Onboarding() {
 
         }
         
-        BrandButton(text = "Register") {
-            if (firstName.value.text.isEmpty()) {
+        BrandButton(
+            text = "Register",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 6.dp)
+        ) {
+
+            val firstNameValue = firstName.value.text
+            val lastNameValue = lastName.value.text
+            val locationValue = location.value.text
+            val emailAddressValue = emailAddress.value.text
+
+            if (firstNameValue.isBlank()) {
                 firstNameError.value = "Field Required"
             } else {
                 firstNameError.value = ""
             }
 
 
-            if (lastName.value.text.isEmpty()) {
+            if (lastNameValue.isBlank()) {
                 lastNameError.value = "Field Required"
             } else {
                 lastNameError.value = ""
             }
 
 
-            if (emailAddress.value.text.isEmpty()) {
+            if (emailAddressValue.isBlank()) {
                 emailAddressError.value = "Field Required"
             } else {
                 emailAddressError.value = ""
             }
 
-            if (firstName.value.text.isEmpty() || lastName.value.text.isEmpty() || emailAddress.value.text.isEmpty()) {
+            if (firstNameValue.isBlank() || lastNameValue.isBlank() || emailAddressValue.isBlank()) {
                 return@BrandButton
             }
+
+            sharedPreferences
+                .edit()
+                .putString(MainActivity.FIRST_NAME_KEY, firstNameValue)
+                .putString(MainActivity.LAST_NAME_KEY, lastNameValue)
+                .putString(MainActivity.LOCATION_KEY, locationValue)
+                .putString(MainActivity.EMAIL_ADDRESS_KEY, emailAddressValue)
+                .putBoolean(MainActivity.IS_LOGGED_IN_KEY, true)
+                .apply()
+
+            navController.navigate(Home.route)
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun OnboardingPreview() {
-    Onboarding()
 }

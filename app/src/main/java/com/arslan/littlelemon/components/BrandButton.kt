@@ -1,7 +1,5 @@
 package com.arslan.littlelemon.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -15,21 +13,27 @@ import com.arslan.littlelemon.ui.theme.BrandColors
 import com.arslan.littlelemon.ui.theme.BrandTypography
 
 @Composable
-fun BrandButton(text: String, onClick: () -> Unit) {
+fun BrandButton(
+    text: String,
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = BrandColors.PrimaryVariant,
+    textColor: Color = Color.Black,
+    onClick: () -> Unit
+) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = BrandColors.PrimaryVariant,
+            backgroundColor = backgroundColor,
         ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 6.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(8.dp)
     ) {
         Text(
             text = text,
             style = BrandTypography.LeadText,
-            color = Color.Black,
+            color = textColor,
+            modifier = Modifier.padding(vertical = 6.dp),
         )
     }
 }
+
