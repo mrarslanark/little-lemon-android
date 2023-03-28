@@ -22,7 +22,7 @@ import com.arslan.littlelemon.ui.theme.BrandColors
 import com.arslan.littlelemon.ui.theme.BrandTypography
 
 @Composable
-fun Onboarding() {
+fun OnboardingScreen() {
 
     val firstName = remember { mutableStateOf(TextFieldValue("")) }
     val firstNameError = remember { mutableStateOf("") }
@@ -154,10 +154,4 @@ fun Onboarding() {
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun OnboardingPreview() {
-    Onboarding()
 }
