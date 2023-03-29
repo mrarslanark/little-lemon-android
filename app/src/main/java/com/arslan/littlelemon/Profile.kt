@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
@@ -36,87 +38,102 @@ fun ProfileScreen(navController: NavHostController, sharedPreferences: SharedPre
     val specialOffers = remember { mutableStateOf(false) }
     val newsletter = remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier.padding(16.dp),
-    ) {
-        Column(modifier = Modifier.weight(0.9f, true)) {
-            Text(
-                text = "Personal Information",
-                style = BrandTypography.Subtitle
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                verticalAlignment = Alignment.Top
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.placeholder_image),
-                    contentDescription = "Person",
-                    modifier = Modifier
-                        .padding(end = 12.dp)
-                        .size(75.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.FillHeight,
-                )
-                Column {
-                    Text(text = "$firstName $lastName".uppercase(), style = BrandTypography.SectionTitle)
-                    Text(text = "$emailAddress", style = BrandTypography.ParagraphText)
-                    Text(text = "$location", style = BrandTypography.ParagraphText)
-                }
-            }
-
-            Column(modifier = Modifier.padding(vertical = 12.dp)) {
-                Text(
-                    text = "Email Notifications",
-                    style = BrandTypography.LeadText,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-                BrandCheckbox("Order Statuses", orderStatues.value) {
-                    orderStatues.value = it
-                }
-                BrandCheckbox("Password Changes", passwordChanges.value) {
-                    passwordChanges.value = it
-                }
-                BrandCheckbox("Special Offers", specialOffers.value) {
-                    specialOffers.value = it
-                }
-                BrandCheckbox("Newsletter", newsletter.value) {
-                    newsletter.value = it
-                }
-            }
-        }
-
-        Row(
-            modifier = Modifier.weight(0.1f)
-        ) {
-            BrandButton(
-                modifier = Modifier
-                    .weight(0.5f, true)
-                    .padding(end = 2.dp),
-                text = "Logout",
-                backgroundColor = BrandColors.Primary,
-                textColor = Color.White
-            ) {
-                sharedPreferences.edit().clear().apply()
-                navController.navigate(Onboarding.route) {
-                    popUpTo(Onboarding.route) {
-                        inclusive = true
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title =  {
+                    Text(text = "Profile", style = BrandTypography.ParagraphText)
+                },
+                backgroundColor = BrandColors.SurfaceColor,
+                navigationIcon = {
+                    if (navController.previousBackStackEntry != null) {
+                        IconButton(onClick = { navController.navigateUp() }) {
+                            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back Arrow")
+                        }
                     }
                 }
-            }
-
-            BrandButton(
-                modifier = Modifier
-                    .weight(0.5f, true)
-                    .padding(start = 2.dp),
-                text = "Edit",
+            )
+        }
+    ) { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues)) {
+            Column(
+                modifier = Modifier.padding(16.dp),
             ) {
-                // TODO: Navigate to Edit Profile Screen
+                Column(modifier = Modifier.weight(0.9f, true)) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp),
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.placeholder_image),
+                            contentDescription = "Person",
+                            modifier = Modifier
+                                .padding(end = 12.dp)
+                                .size(75.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.FillHeight,
+                        )
+                        Column {
+                            Text(text = "$firstName $lastName".uppercase(), style = BrandTypography.SectionTitle)
+                            Text(text = "$emailAddress", style = BrandTypography.ParagraphText)
+                            Text(text = "$location", style = BrandTypography.ParagraphText)
+                        }
+                    }
+
+                    Column(modifier = Modifier.padding(vertical = 12.dp)) {
+                        Text(
+                            text = "Email Notifications",
+                            style = BrandTypography.LeadText,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        BrandCheckbox("Order Statuses", orderStatues.value) {
+                            orderStatues.value = it
+                        }
+                        BrandCheckbox("Password Changes", passwordChanges.value) {
+                            passwordChanges.value = it
+                        }
+                        BrandCheckbox("Special Offers", specialOffers.value) {
+                            specialOffers.value = it
+                        }
+                        BrandCheckbox("Newsletter", newsletter.value) {
+                            newsletter.value = it
+                        }
+                    }
+                }
+
+                Row(
+                    modifier = Modifier.weight(0.1f)
+                ) {
+                    BrandButton(
+                        modifier = Modifier
+                            .weight(0.5f, true)
+                            .padding(end = 2.dp),
+                        text = "Logout",
+                        backgroundColor = BrandColors.Primary,
+                        textColor = Color.White
+                    ) {
+                        sharedPreferences.edit().clear().apply()
+                        navController.navigate(Onboarding.route) {
+                            popUpTo(Onboarding.route) {
+                                inclusive = true
+                            }
+                        }
+                    }
+
+                    BrandButton(
+                        modifier = Modifier
+                            .weight(0.5f, true)
+                            .padding(start = 2.dp),
+                        text = "Edit",
+                    ) {
+                        // TODO: Navigate to Edit Profile Screen
+                    }
+                }
+
             }
         }
-
     }
 }
 

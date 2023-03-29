@@ -12,23 +12,25 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.arslan.littlelemon.components.MenuListItem
 import com.arslan.littlelemon.navigation.Profile
+import com.arslan.littlelemon.navigation.Search
 import com.arslan.littlelemon.ui.theme.BrandColors
 import com.arslan.littlelemon.ui.theme.BrandTypography
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
+import java.util.*
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun HomeScreen(
     navController: NavHostController,
@@ -37,6 +39,19 @@ fun HomeScreen(
 
     val selectedCategory: MutableState<Categories?> = remember {
         mutableStateOf(null)
+    }
+
+    val menuItems = if (selectedCategory.value != null) {
+        databaseMenuItems.filter { menuItem ->
+            val categoryToEnum = Categories.valueOf(menuItem.category.replaceFirstChar {
+                if (it.isLowerCase()) it.titlecase(
+                    Locale.getDefault()
+                ) else it.toString()
+            })
+            categoryToEnum == selectedCategory.value
+        }
+    } else {
+        databaseMenuItems
     }
 
     Column {
@@ -99,7 +114,7 @@ fun HomeScreen(
             }
             IconButton(
                 onClick = {
-                    // TODO: Go to Search Screen
+                    navController.navigate(Search.route)
                 },
                 modifier = Modifier.padding(top = 16.dp)
             ) {
@@ -161,50 +176,9 @@ fun HomeScreen(
 
         LazyColumn {
             itemsIndexed(
-                items = databaseMenuItems,
+                items = menuItems,
                 itemContent = { index, item ->
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
-                        Column(
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier
-                                .weight(0.8f, true)
-                                .height(90.dp)
-                                .padding(end = 12.dp),
-                            horizontalAlignment = Alignment.Start
-                        ) {
-                            Column {
-                                Text(
-                                    text = item.title,
-                                    style = BrandTypography.CardTitle
-                                )
-                                Text(
-                                    text = item.description,
-                                    style = BrandTypography.ParagraphText,
-                                    maxLines = 2,
-                                )
-                            }
-                            Text(
-                                text = "$${item.price}",
-                                style = BrandTypography.HighlightText
-                            )
-                        }
-                        GlideImage(
-                            model = item.image,
-                            contentDescription = "Hero Image",
-                            modifier = Modifier
-                                .size(90.dp)
-                                .clip(RoundedCornerShape(8.dp)),
-                            contentScale = ContentScale.Crop,
-                        )
-                    }
-                    if (index < 10) {
-                        Divider(
-                            color = BrandColors.SurfaceColor, thickness = 1.dp, modifier = Modifier.padding(horizontal = 16.dp))
-                    }
+                    MenuListItem(item, index)
                 }
             )
         }
