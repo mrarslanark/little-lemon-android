@@ -1,5 +1,6 @@
 package com.arslan.littlelemon.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -10,7 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.arslan.littlelemon.MenuItemRoom
+import com.arslan.littlelemon.navigation.Destinations
 import com.arslan.littlelemon.ui.theme.BrandColors
 import com.arslan.littlelemon.ui.theme.BrandTypography
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -20,12 +23,16 @@ import com.bumptech.glide.integration.compose.GlideImage
 @Composable
 fun MenuListItem(
     item: MenuItemRoom,
-    index: Int
+    index: Int,
+    navController: NavController
 ) {
     Row(
         Modifier
             .fillMaxWidth()
             .padding(16.dp)
+            .clickable {
+                navController.navigate(Destinations.ItemDetails.route + "/${item.id}")
+            }
     ) {
         Column(
             verticalArrangement = Arrangement.SpaceBetween,

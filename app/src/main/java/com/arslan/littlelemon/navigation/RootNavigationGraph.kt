@@ -7,15 +7,19 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.arslan.littlelemon.*
+import com.arslan.littlelemon.screens.*
 
 @Composable
 fun RootNavigationGraph(
     sharedPreferences: SharedPreferences,
     menuItems: List<MenuItemRoom>,
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: MenuViewModel
 ) {
 
     val isLoggedIn = sharedPreferences.getBoolean(MainActivity.IS_LOGGED_IN_KEY, false)
@@ -37,8 +41,19 @@ fun RootNavigationGraph(
                 composable(route = Destinations.Profile.route) {
                     ProfileScreen(navController = navController, sharedPreferences = sharedPreferences)
                 }
-                composable(route = Destinations.ItemDetails.route) {
-                    ItemDetailsScreen()
+                composable(
+                    Destinations.ItemDetails.route + "/{${Destinations.ItemDetails.itemId}}",
+                    arguments = listOf(
+                        navArgument(Destinations.ItemDetails.itemId) { type = NavType.IntType }
+                    )
+                ) { navBackStackEntry ->
+                    ItemDetailsScreen(
+                        itemId = navBackStackEntry.arguments?.getInt(
+                            Destinations.ItemDetails.itemId
+                        ),
+                        viewModel,
+                        navController
+                    )
                 }
                 composable(route = Destinations.Search.route) {
                     SearchScreen(navController = navController, menuItems = menuItems)

@@ -1,4 +1,4 @@
-package com.arslan.littlelemon
+package com.arslan.littlelemon.screens
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

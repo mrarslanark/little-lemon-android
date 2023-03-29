@@ -1,4 +1,4 @@
-package com.arslan.littlelemon
+package com.arslan.littlelemon.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -24,6 +23,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.arslan.littlelemon.Categories
+import com.arslan.littlelemon.MenuItemRoom
+import com.arslan.littlelemon.R
 import com.arslan.littlelemon.components.MenuListItem
 import com.arslan.littlelemon.navigation.Destinations
 import com.arslan.littlelemon.ui.theme.BrandColors
@@ -165,7 +167,7 @@ fun HomeScreen(
             itemsIndexed(
                 items = menuItems,
                 itemContent = { index, item ->
-                    MenuListItem(item, index)
+                    MenuListItem(item, index, navController)
                 }
             )
         }
