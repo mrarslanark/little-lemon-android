@@ -57,7 +57,8 @@ class MainActivity : ComponentActivity() {
                         .menuItemDao()
                         .getAllMenuItems()
                         .observeAsState(emptyList())
-                    NavigationComposable(sharedPreferences, databaseMenuItems.value)
+                    val menuItemSorted = databaseMenuItems.value.sortedBy { it.title }
+                    NavigationComposable(sharedPreferences, menuItemSorted)
                 }
             }
         }
