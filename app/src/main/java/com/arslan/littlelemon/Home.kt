@@ -1,24 +1,18 @@
 package com.arslan.littlelemon
 
-import android.widget.Button
-import android.widget.ImageButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,22 +20,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.*
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.BaselineShift
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextGeometricTransform
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.arslan.littlelemon.navigation.Profile
 import com.arslan.littlelemon.ui.theme.BrandColors
 import com.arslan.littlelemon.ui.theme.BrandTypography
-import com.arslan.littlelemon.ui.theme.MarkaziTextFamily
-import java.util.*
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(
+    navController: NavHostController,
+    databaseMenuItems: List<MenuItemRoom>
+) {
 
     val selectedCategory: MutableState<Categories?> = remember {
         mutableStateOf(null)
@@ -168,50 +160,53 @@ fun HomeScreen(navController: NavHostController) {
         }
 
         LazyColumn {
-            items(count = 10) { index ->
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier
-                            .weight(0.8f, true)
-                            .height(90.dp)
-                            .padding(end = 12.dp),
-                        horizontalAlignment = Alignment.Start
+            itemsIndexed(
+                items = databaseMenuItems,
+                itemContent = { index, item ->
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
                     ) {
-                        Column {
+                        Column(
+                            verticalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier
+                                .weight(0.8f, true)
+                                .height(90.dp)
+                                .padding(end = 12.dp),
+                            horizontalAlignment = Alignment.Start
+                        ) {
+                            Column {
+                                Text(
+                                    text = item.title,
+                                    style = BrandTypography.CardTitle
+                                )
+                                Text(
+                                    text = item.description,
+                                    style = BrandTypography.ParagraphText,
+                                    maxLines = 2,
+                                )
+                            }
                             Text(
-                                text = "Greek Salad",
-                                style = BrandTypography.CardTitle
-                            )
-                            Text(
-                                text = "The famous greek salad of crispy lettuce, peppers, olives, and our Chic...",
-                                style = BrandTypography.ParagraphText,
-                                maxLines = 2,
+                                text = "$${item.price}",
+                                style = BrandTypography.HighlightText
                             )
                         }
-                        Text(
-                            text = "$12.99",
-                            style = BrandTypography.HighlightText
+                        GlideImage(
+                            model = item.image,
+                            contentDescription = "Hero Image",
+                            modifier = Modifier
+                                .size(90.dp)
+                                .clip(RoundedCornerShape(8.dp)),
+                            contentScale = ContentScale.Crop,
                         )
                     }
-                    Image(
-                        painter = painterResource(id = R.drawable.hero_image),
-                        contentDescription = "Hero Image",
-                        modifier = Modifier
-                            .size(90.dp)
-                            .clip(RoundedCornerShape(8.dp)),
-                        contentScale = ContentScale.FillWidth,
-                    )
+                    if (index < 10) {
+                        Divider(
+                            color = BrandColors.SurfaceColor, thickness = 1.dp, modifier = Modifier.padding(horizontal = 16.dp))
+                    }
                 }
-                if (index < 10) {
-                    Divider(
-                        color = BrandColors.SurfaceColor, thickness = 1.dp, modifier = Modifier.padding(horizontal = 16.dp))
-                }
-            }
+            )
         }
 
     }
