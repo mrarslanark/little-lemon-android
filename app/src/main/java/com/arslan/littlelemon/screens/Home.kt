@@ -68,9 +68,12 @@ fun HomeScreen(
                Modifier.aspectRatio(5f, true)
            )
            IconButton(onClick = {
-               // TODO: Remove and replace with search icon
+               navController.navigate(Destinations.Search.route)
            }) {
-               Image(imageVector = Icons.Default.Person, contentDescription = "Profile Icon")
+               Image(
+                   imageVector = Icons.Default.Search,
+                   contentDescription = "Search Icon"
+               )
            }
         }
 
@@ -109,21 +112,6 @@ fun HomeScreen(
                     modifier = Modifier
                         .height(130.dp)
                         .clip(RoundedCornerShape(10.dp))
-                )
-            }
-            IconButton(
-                onClick = {
-                    navController.navigate(route = Destinations.Search.route)
-                },
-                modifier = Modifier.padding(top = 16.dp)
-            ) {
-                Image(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search",
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(100))
-                        .background(MaterialTheme.colors.background)
-                        .padding(8.dp)
                 )
             }
         }
