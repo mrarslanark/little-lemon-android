@@ -1,4 +1,4 @@
-package com.arslan.littlelemon
+package com.arslan.littlelemon.screens
 
 import android.content.SharedPreferences
 import androidx.compose.foundation.Image
@@ -17,6 +17,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.arslan.littlelemon.MainActivity
+import com.arslan.littlelemon.R
 import com.arslan.littlelemon.components.BrandButton
 import com.arslan.littlelemon.components.Input
 import com.arslan.littlelemon.navigation.Destinations

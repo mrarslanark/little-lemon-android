@@ -11,7 +11,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
-import androidx.room.Room
 import com.arslan.littlelemon.navigation.RootNavigationGraph
 import com.arslan.littlelemon.ui.theme.LittleLemonTheme
 import io.ktor.client.*
@@ -32,20 +31,15 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private val database by lazy {
-        Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "database"
-        ).build()
-    }
-
     private val sharedPreferences by lazy {
         getSharedPreferences("LittleLemon", MODE_PRIVATE)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val database = AppDatabase.getInstance(applicationContext)
+        val viewModel = MenuViewModel(MenuRepository(database.menuItemDao()))
 
         setContent {
             LittleLemonTheme {
@@ -62,7 +56,8 @@ class MainActivity : ComponentActivity() {
                     RootNavigationGraph(
                         navController = rememberNavController(),
                         sharedPreferences = sharedPreferences,
-                        menuItems = menuItemSorted
+                        menuItems = menuItemSorted,
+                        viewModel = viewModel
                     )
                 }
             }
@@ -71,7 +66,7 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             if (database.menuItemDao().isEmpty()) {
                 val menuItems = fetchMenu()
-                saveMenuToDatabase(menuItems)
+                MenuRepository(database.menuItemDao()).saveMenuToDatabase(menuItems)
             }
         }
     }
@@ -81,11 +76,6 @@ class MainActivity : ComponentActivity() {
         val response: MenuData = httpClient.get(url).body()
         response.menu.forEach { Log.d("MainActivity", it.title) }
         return response.menu
-    }
-
-    private fun saveMenuToDatabase(menuItems: List<MenuItem>) {
-        val menuItemsRoom = menuItems.map { it.toMenuItemRoom() }
-        database.menuItemDao().insertAll(*menuItemsRoom.toTypedArray())
     }
 
     companion object {

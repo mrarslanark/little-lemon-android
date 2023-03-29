@@ -1,5 +1,6 @@
 package com.arslan.littlelemon
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
@@ -15,7 +16,6 @@ data class MenuItemRoom(
 
 @Dao
 interface MenuItemDao {
-
     @Query("SELECT * FROM MenuItemRoom")
     fun getAllMenuItems(): LiveData<List<MenuItemRoom>>
 
@@ -24,9 +24,35 @@ interface MenuItemDao {
 
     @Query("SELECT (SELECT COUNT(*) FROM MenuItemRoom) == 0")
     fun isEmpty(): Boolean
+
+    @Query("SELECT * FROM MenuItemRoom WHERE id == :id")
+    fun getMenuItem(id: Int): MenuItemRoom
 }
 
 @Database(entities = [MenuItemRoom::class], version = 1)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun menuItemDao(): MenuItemDao
+
+    companion object {
+
+        @Volatile
+        private var INSTANCE: AppDatabase? = null
+
+        fun getInstance(context: Context): AppDatabase {
+            synchronized(this) {
+                var instance = INSTANCE
+
+                if (instance == null) {
+                    instance = Room.databaseBuilder(
+                        context.applicationContext,
+                        AppDatabase::class.java,
+                        "database"
+                    ).fallbackToDestructiveMigration().build()
+                }
+                return instance
+            }
+        }
+
+    }
+
 }

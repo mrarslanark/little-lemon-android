@@ -10,20 +10,21 @@ sealed class Destinations(
     val title: String? = null,
     val icon: ImageVector? = null
 ) {
-    object Onboarding: Destinations(route = "ONBOARDING")
-
+    object Onboarding: Destinations(route = "Onboarding")
     object Home: Destinations(
-        route = "HOME",
+        route = "Home",
         title = "Home",
         icon = Icons.Default.Home
     )
     object Profile: Destinations(
-        route = "PROFILE",
+        route = "Profile",
         title = "Profile",
         icon = Icons.Default.Person
     )
 
-    object ItemDetails: Destinations(route = "ITEM_DETAIL")
-    object Search: Destinations(route = "SEARCH")
-    object EditProfile: Destinations(route = "EDIT_PROFILE")
+    object ItemDetails: Destinations(route = "ItemDetails") {
+        const val itemId = "ItemId"
+    }
+    object Search: Destinations(route = "Search")
+    object EditProfile: Destinations(route = "EditProfile")
 }

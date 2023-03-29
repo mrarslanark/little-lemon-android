@@ -1,4 +1,4 @@
-package com.arslan.littlelemon
+package com.arslan.littlelemon.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.arslan.littlelemon.MenuItemRoom
 import com.arslan.littlelemon.components.MenuListItem
 import com.arslan.littlelemon.ui.theme.BrandColors
 import com.arslan.littlelemon.ui.theme.BrandTypography
@@ -89,7 +90,7 @@ fun SearchScreen(
                         itemsIndexed(
                             items = filteredMenuItems,
                             itemContent = { index, item ->
-                                MenuListItem(item, index)
+                                MenuListItem(item, index, navController)
                             }
                         )
                     }
