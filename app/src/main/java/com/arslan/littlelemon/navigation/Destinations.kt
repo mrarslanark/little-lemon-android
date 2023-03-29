@@ -1,21 +1,29 @@
 package com.arslan.littlelemon.navigation
 
-interface Destinations {
-    val route: String
-}
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.ui.graphics.vector.ImageVector
 
-object Onboarding: Destinations {
-    override val route: String = "Onboarding"
-}
+sealed class Destinations(
+    val route: String,
+    val title: String? = null,
+    val icon: ImageVector? = null
+) {
+    object Onboarding: Destinations(route = "ONBOARDING")
 
-object Home: Destinations {
-    override val route: String = "Home"
-}
+    object Home: Destinations(
+        route = "HOME",
+        title = "Home",
+        icon = Icons.Default.Home
+    )
+    object Profile: Destinations(
+        route = "PROFILE",
+        title = "Profile",
+        icon = Icons.Default.Person
+    )
 
-object Profile: Destinations {
-    override val route: String = "Profile"
-}
-
-object Search:  Destinations{
-    override val route: String = "Search"
+    object ItemDetails: Destinations(route = "ITEM_DETAIL")
+    object Search: Destinations(route = "SEARCH")
+    object EditProfile: Destinations(route = "EDIT_PROFILE")
 }

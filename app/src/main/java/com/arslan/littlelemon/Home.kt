@@ -25,8 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.arslan.littlelemon.components.MenuListItem
-import com.arslan.littlelemon.navigation.Profile
-import com.arslan.littlelemon.navigation.Search
+import com.arslan.littlelemon.navigation.Destinations
 import com.arslan.littlelemon.ui.theme.BrandColors
 import com.arslan.littlelemon.ui.theme.BrandTypography
 import java.util.*
@@ -34,7 +33,7 @@ import java.util.*
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-    databaseMenuItems: List<MenuItemRoom>
+    data: List<MenuItemRoom>
 ) {
 
     val selectedCategory: MutableState<Categories?> = remember {
@@ -42,7 +41,7 @@ fun HomeScreen(
     }
 
     val menuItems = if (selectedCategory.value != null) {
-        databaseMenuItems.filter { menuItem ->
+        data.filter { menuItem ->
             val categoryToEnum = Categories.valueOf(menuItem.category.replaceFirstChar {
                 if (it.isLowerCase()) it.titlecase(
                     Locale.getDefault()
@@ -51,7 +50,7 @@ fun HomeScreen(
             categoryToEnum == selectedCategory.value
         }
     } else {
-        databaseMenuItems
+        data
     }
 
     Column {
@@ -69,7 +68,7 @@ fun HomeScreen(
                Modifier.aspectRatio(5f, true)
            )
            IconButton(onClick = {
-               navController.navigate(Profile.route)
+               // TODO: Remove and replace with search icon
            }) {
                Image(imageVector = Icons.Default.Person, contentDescription = "Profile Icon")
            }
@@ -114,7 +113,7 @@ fun HomeScreen(
             }
             IconButton(
                 onClick = {
-                    navController.navigate(Search.route)
+                    navController.navigate(route = Destinations.Search.route)
                 },
                 modifier = Modifier.padding(top = 16.dp)
             ) {

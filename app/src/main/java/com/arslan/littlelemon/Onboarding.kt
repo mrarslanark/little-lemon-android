@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -20,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.arslan.littlelemon.components.BrandButton
 import com.arslan.littlelemon.components.Input
-import com.arslan.littlelemon.navigation.Home
+import com.arslan.littlelemon.navigation.Destinations
 import com.arslan.littlelemon.ui.theme.BrandColors
 import com.arslan.littlelemon.ui.theme.BrandTypography
 
@@ -30,15 +29,15 @@ fun OnboardingScreen(
     sharedPreferences: SharedPreferences
 ) {
 
-    val firstName = remember { mutableStateOf(TextFieldValue("")) }
+    val firstName = remember { mutableStateOf(TextFieldValue("John")) }
     val firstNameError = remember { mutableStateOf("") }
 
-    val lastName = remember { mutableStateOf(TextFieldValue("")) }
+    val lastName = remember { mutableStateOf(TextFieldValue("Doe")) }
     val lastNameError = remember { mutableStateOf("") }
 
-    val location = remember { mutableStateOf(TextFieldValue("")) }
+    val location = remember { mutableStateOf(TextFieldValue("New York, USA")) }
 
-    val emailAddress = remember { mutableStateOf(TextFieldValue("")) }
+    val emailAddress = remember { mutableStateOf(TextFieldValue("johndoe@email.com")) }
     val emailAddressError = remember { mutableStateOf("") }
 
     Column(
@@ -179,7 +178,7 @@ fun OnboardingScreen(
                 .putBoolean(MainActivity.IS_LOGGED_IN_KEY, true)
                 .apply()
 
-            navController.navigate(Home.route)
+            navController.navigate(route = Destinations.Home.route)
         }
     }
 }

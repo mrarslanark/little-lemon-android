@@ -10,8 +10,9 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
-import com.arslan.littlelemon.navigation.NavigationComposable
+import com.arslan.littlelemon.navigation.RootNavigationGraph
 import com.arslan.littlelemon.ui.theme.LittleLemonTheme
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -58,7 +59,11 @@ class MainActivity : ComponentActivity() {
                         .getAllMenuItems()
                         .observeAsState(emptyList())
                     val menuItemSorted = databaseMenuItems.value.sortedBy { it.title }
-                    NavigationComposable(sharedPreferences, menuItemSorted)
+                    RootNavigationGraph(
+                        navController = rememberNavController(),
+                        sharedPreferences = sharedPreferences,
+                        menuItems = menuItemSorted
+                    )
                 }
             }
         }
