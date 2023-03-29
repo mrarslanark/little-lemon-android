@@ -1,6 +1,7 @@
 package com.arslan.littlelemon.ui.theme
 
-import androidx.compose.material.Typography
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -43,7 +44,7 @@ object BrandTypography {
     val DisplayTitle = TextStyle(
         fontFamily = MarkaziTextFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 64.sp
+        fontSize = 64.sp,
     )
 
     val SectionTitle = TextStyle(
@@ -68,6 +69,18 @@ object BrandTypography {
         fontFamily = KarlaFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
+    )
+
+    val SectionCategories = TextStyle(
+        fontFamily = KarlaFamily,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 16.sp
+    )
+
+    val CardTitle = TextStyle(
+        fontFamily = KarlaFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp
     )
 }
 
