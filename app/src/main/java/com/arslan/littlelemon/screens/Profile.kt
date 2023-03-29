@@ -120,7 +120,7 @@ fun ProfileScreen(navController: NavHostController, sharedPreferences: SharedPre
                             .padding(start = 2.dp),
                         text = "Edit",
                     ) {
-                        // TODO: Navigate to Edit Profile Screen
+                        navController.navigate(Destinations.EditProfile.route)
                     }
                 }
 

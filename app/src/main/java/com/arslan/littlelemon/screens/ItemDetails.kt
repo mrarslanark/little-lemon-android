@@ -66,8 +66,8 @@ fun ItemDetailComponent(menuItem: MenuItemRoom, navController: NavHostController
                 }
             )
         }
-    ) { paddingVlaues ->
-        Box(Modifier.padding(paddingVlaues)) {
+    ) { paddingValues ->
+        Box(Modifier.padding(paddingValues)) {
             Column(Modifier.fillMaxSize()) {
                 GlideImage(
                     model = menuItem.image,
