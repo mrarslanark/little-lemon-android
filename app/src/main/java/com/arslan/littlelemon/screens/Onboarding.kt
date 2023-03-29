@@ -31,15 +31,15 @@ fun OnboardingScreen(
     sharedPreferences: SharedPreferences
 ) {
 
-    val firstName = remember { mutableStateOf(TextFieldValue("John")) }
+    val firstName = remember { mutableStateOf(TextFieldValue("")) }
     val firstNameError = remember { mutableStateOf("") }
 
-    val lastName = remember { mutableStateOf(TextFieldValue("Doe")) }
+    val lastName = remember { mutableStateOf(TextFieldValue("")) }
     val lastNameError = remember { mutableStateOf("") }
 
-    val location = remember { mutableStateOf(TextFieldValue("New York, USA")) }
+    val location = remember { mutableStateOf(TextFieldValue("")) }
 
-    val emailAddress = remember { mutableStateOf(TextFieldValue("johndoe@email.com")) }
+    val emailAddress = remember { mutableStateOf(TextFieldValue("")) }
     val emailAddressError = remember { mutableStateOf("") }
 
     Column(

@@ -59,7 +59,7 @@ fun RootNavigationGraph(
                     SearchScreen(navController = navController, menuItems = menuItems)
                 }
                 composable(route = Destinations.EditProfile.route) {
-                    EditProfileScreen()
+                    EditProfileScreen(sharedPreferences, navController)
                 }
                 composable(route = Destinations.Onboarding.route) {
                     OnboardingScreen(navController = navController, sharedPreferences = sharedPreferences)
