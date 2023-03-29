@@ -4,10 +4,7 @@ import android.content.SharedPreferences
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.arslan.littlelemon.components.BrandButton
-import com.arslan.littlelemon.navigation.Onboarding
+import com.arslan.littlelemon.navigation.Destinations
 import com.arslan.littlelemon.ui.theme.BrandColors
 import com.arslan.littlelemon.ui.theme.BrandTypography
 
@@ -45,13 +42,6 @@ fun ProfileScreen(navController: NavHostController, sharedPreferences: SharedPre
                     Text(text = "Profile", style = BrandTypography.ParagraphText)
                 },
                 backgroundColor = BrandColors.SurfaceColor,
-                navigationIcon = {
-                    if (navController.previousBackStackEntry != null) {
-                        IconButton(onClick = { navController.navigateUp() }) {
-                            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back Arrow")
-                        }
-                    }
-                }
             )
         }
     ) { paddingValues ->
@@ -115,8 +105,8 @@ fun ProfileScreen(navController: NavHostController, sharedPreferences: SharedPre
                         textColor = Color.White
                     ) {
                         sharedPreferences.edit().clear().apply()
-                        navController.navigate(Onboarding.route) {
-                            popUpTo(Onboarding.route) {
+                        navController.navigate(Destinations.Onboarding.route) {
+                            popUpTo(Destinations.Onboarding.route) {
                                 inclusive = true
                             }
                         }
