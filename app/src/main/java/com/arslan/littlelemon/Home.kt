@@ -20,6 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.arslan.littlelemon.navigation.Profile
@@ -27,6 +29,7 @@ import com.arslan.littlelemon.ui.theme.BrandColors
 import com.arslan.littlelemon.ui.theme.BrandTypography
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import java.util.*
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -37,6 +40,19 @@ fun HomeScreen(
 
     val selectedCategory: MutableState<Categories?> = remember {
         mutableStateOf(null)
+    }
+
+    val menuItems = if (selectedCategory.value != null) {
+        databaseMenuItems.filter { menuItem ->
+            val categoryToEnum = Categories.valueOf(menuItem.category.replaceFirstChar {
+                if (it.isLowerCase()) it.titlecase(
+                    Locale.getDefault()
+                ) else it.toString()
+            })
+            categoryToEnum == selectedCategory.value
+        }
+    } else {
+        databaseMenuItems
     }
 
     Column {
@@ -161,7 +177,7 @@ fun HomeScreen(
 
         LazyColumn {
             itemsIndexed(
-                items = databaseMenuItems,
+                items = menuItems,
                 itemContent = { index, item ->
                     Row(
                         Modifier
