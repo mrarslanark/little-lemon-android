@@ -2,7 +2,6 @@ package com.arslan.littlelemon.navigation
 
 import android.content.SharedPreferences
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -11,7 +10,7 @@ import com.arslan.littlelemon.*
 @Composable
 fun NavigationComposable(
     sharedPreferences: SharedPreferences,
-    databaseMenuItems: List<MenuItemRoom>
+    menuItems: List<MenuItemRoom>
 ) {
 
     val navController = rememberNavController()
@@ -31,10 +30,13 @@ fun NavigationComposable(
             OnboardingScreen(navController, sharedPreferences)
         }
         composable(Home.route) {
-            HomeScreen(navController, databaseMenuItems)
+            HomeScreen(navController, menuItems)
         }
         composable(Profile.route) {
             ProfileScreen(navController, sharedPreferences)
+        }
+        composable(Search.route) {
+            SearchScreen(navController, menuItems)
         }
     }
 
