@@ -1,6 +1,5 @@
 package com.arslan.littlelemon
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -10,8 +9,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MenuViewModel @Inject constructor(private val menuRepository: MenuRepository) : ViewModel() {
-
-    val menuList: LiveData<List<MenuItemRoom>> = menuRepository.menuItems
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
